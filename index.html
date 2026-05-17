@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ICorp — Intelligent infrastructure for teams that move fast.">
+  <meta name="author" content="ICorp Technologies, Inc.">
+
+  <meta name="x-internal-build-ref" content="flag{m3ta_d4ta_1s_n3v3r_pr1v4t3}">
+
+  <title>ICorp — Infrastructure That Thinks Ahead</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:            #060a13;
+      --surface:       #0c1221;
+      --surface-2:     #101828;
+      --border:        #192440;
+      --border-hi:     #253660;
+      --text:          #dde9f8;
+      --text-muted:    #5e7aa0;
+      --text-dim:      #2f4464;
+      --accent:        #00e5a0;
+      --accent-dim:    rgba(0,229,160,0.10);
+      --accent-glow:   rgba(0,229,160,0.22);
+      --blue:          #4d8cf5;
+      --blue-dim:      rgba(77,140,245,0.10);
+      --coral:         #ff5c7a;
+      --coral-dim:     rgba(255,92,122,0.10);
+      --font-h:  'Syne', sans-serif;
+      --font-b:  'Figtree', sans-serif;
+      --font-m:  'Fira Code', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-weight: 400;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* dot grid */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ambient glow top-right */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -150px; right: -150px;
+      width: 580px; height: 580px;
+      background: radial-gradient(circle, rgba(0,229,160,0.05) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(6,10,19,0.72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+
+    .logo {
+      font-family: var(--font-h);
+      font-weight: 800;
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo em { color: var(--accent); font-style: normal; }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2.5rem; list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.3rem;
+      border-radius: 7px;
+      font-family: var(--font-b);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border-hi);
+      color: var(--text);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary {
+      background: var(--accent);
+      color: #060a13;
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: #12fdb8;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px var(--accent-glow);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 9rem 2rem 6rem;
+    }
+
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.32rem 0.95rem;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,229,160,0.28);
+      border-radius: 999px;
+      font-family: var(--font-m);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-pill::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity:1; } 50% { opacity:0.25; }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(22px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    h1 {
+      font-family: var(--font-h);
+      font-size: clamp(3rem, 7.5vw, 6.8rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1.01;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .g {
+      background: linear-gradient(130deg, #ffffff 25%, var(--accent) 65%, var(--blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-ctas {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    /* ─── STATS ─── */
+    .stats-bar {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stat {
+      flex: 1; max-width: 200px;
+      padding: 2rem 1rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-n {
+      font-family: var(--font-h);
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-n em { color: var(--accent); font-style: normal; }
+    .stat-l {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    /* ─── GENERIC SECTION PARTS ─── */
+    section { position: relative; z-index: 1; }
+    .inner { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
+
+    .tag {
+      font-family: var(--font-m);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: var(--font-h);
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      margin-bottom: 1.1rem;
+    }
+    .desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 480px;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* ─── FEATURES ─── */
+    .feat-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 3.5rem;
+    }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .feat-card {
+      background: var(--surface);
+      padding: 2.25rem;
+      transition: background 0.3s;
+    }
+    .feat-card:hover { background: var(--surface-2); }
+    .feat-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,229,160,0.22);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 1.4rem;
+    }
+    .feat-card h3 {
+      font-family: var(--font-h);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.65rem;
+    }
+    .feat-card p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ─── PRODUCTS ─── */
+    #products { background: linear-gradient(to bottom, var(--bg), var(--surface)); }
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .prod-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .prod-card:hover { border-color: var(--border-hi); transform: translateY(-5px); }
+    .prod-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .c-green::after { background: var(--accent); }
+    .c-blue::after  { background: var(--blue); }
+    .c-coral::after { background: var(--coral); }
+
+    .prod-lbl {
+      font-family: var(--font-m);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .c-green .prod-lbl { color: var(--accent); }
+    .c-blue  .prod-lbl { color: var(--blue); }
+    .c-coral .prod-lbl { color: var(--coral); }
+
+    .prod-card h3 {
+      font-family: var(--font-h);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .prod-card p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.72;
+      font-weight: 300;
+    }
+    .prod-badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.22rem 0.7rem;
+      border-radius: 5px;
+      font-family: var(--font-m);
+      font-size: 0.68rem;
+    }
+    .c-green .prod-badge { background: var(--accent-dim); color: var(--accent); }
+    .c-blue  .prod-badge { background: var(--blue-dim);   color: var(--blue); }
+    .c-coral .prod-badge { background: var(--coral-dim);  color: var(--coral); }
+
+    /* ─── TEAM ─── */
+    #team {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .team-card { text-align: center; }
+    .avatar {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      border: 2px solid var(--border-hi);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-h);
+      font-size: 1.4rem; font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 auto 1.15rem;
+    }
+    .av1 { background: linear-gradient(135deg,#0b231a,#0a3329); color:var(--accent); }
+    .av2 { background: linear-gradient(135deg,#0b1529,#0a1d3d); color:var(--blue); }
+    .av3 { background: linear-gradient(135deg,#231a0b,#3d2a08); color:#f5b942; }
+    .av4 { background: linear-gradient(135deg,#230b18,#3d0a20); color:var(--coral); }
+
+    .t-name {
+      font-family: var(--font-h);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.2rem;
+    }
+    .t-role {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .ghost {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    /* ─── CTA ─── */
+    .cta-wrap { text-align: center; }
+    .cta-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 50%; transform: translateX(-50%);
+      width: 480px; height: 260px;
+      background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box h2 { max-width: 540px; margin: 0 auto 1rem; }
+    .cta-box p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      font-weight: 300;
+      margin-bottom: 2.25rem;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+    }
+    .foot-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .foot-l { display: flex; align-items: center; gap: 1.75rem; }
+    .foot-copy { font-size: 0.78rem; color: var(--text-dim); }
+    .foot-links { display: flex; gap: 1.5rem; list-style: none; }
+    .foot-links a {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .foot-links a:hover { color: var(--text); }
+
+    /* ─── SCROLL FADE ─── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="top-nav">
+    <a href="#" class="logo">I<em>Corp</em></a>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#" class="btn btn-ghost">Log in</a></li>
+      <li><a href="#" class="btn btn-primary">Get started</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-pill">v2.4.1 &mdash; Now in General Availability</div>
+    <h1>Infrastructure<br>that <span class="g">thinks ahead.</span></h1>
+    <p class="hero-sub">
+      ICorp delivers intelligent cloud infrastructure for engineering teams that can't afford to slow down. Ship faster. Scale effortlessly. Sleep better.
+    </p>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary">Start free trial &rarr;</a>
+      <a href="#products" class="btn btn-ghost">Explore products</a>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-n">99<em>.99%</em></div>
+      <div class="stat-l">Uptime SLA</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">14<em>k+</em></div>
+      <div class="stat-l">Active teams</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">3<em>B+</em></div>
+      <div class="stat-l">Events / day</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">&lt;5<em>ms</em></div>
+      <div class="stat-l">p99 Latency</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">140<em>+</em></div>
+      <div class="stat-l">Integrations</div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="inner">
+      <div class="feat-head">
+        <div>
+          <div class="tag">// core capabilities</div>
+          <h2>Built for scale.<br>Designed for devs.</h2>
+        </div>
+        <p class="desc">Every layer of ICorp is engineered for the edge cases you haven't thought of yet — reliable by default, powerful when you need it.</p>
+      </div>
+
+      <div class="feat-grid">
+        <div class="feat-card reveal">
+          <div class="feat-icon">⚡</div>
+          <h3>Real-time orchestration</h3>
+          <p>Coordinate complex workflows across distributed systems with sub-millisecond precision and automatic failover.</p>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">🔒</div>
+          <h3>Zero-trust security</h3>
+          <p>End-to-end encryption, granular RBAC, and automatic secret rotation — security that never slows you down.</p>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">📊</div>
+          <h3>Adaptive analytics</h3>
+          <p>Intelligent dashboards that surface the metrics that matter, powered by anomaly detection and trend forecasting.</p>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">🌐</div>
+          <h3>Multi-cloud native</h3>
+          <p>Deploy across AWS, GCP, and Azure from a single control plane. No vendor lock-in. Ever.</p>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">🔁</div>
+          <h3>GitOps ready</h3>
+          <p>Infrastructure as code, out of the box. Pull requests drive your infra changes, not tickets.</p>
+        </div>
+        <div class="feat-card reveal">
+          <div class="feat-icon">🤖</div>
+          <h3>AI-assisted ops</h3>
+          <p>Predictive autoscaling, intelligent alerting, and automated runbooks trained on your system's own history.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="inner">
+      <div class="tag">// our products</div>
+      <h2>One platform.<br>Three powerhouses.</h2>
+      <p class="desc">Each ICorp product works independently — or as a fully unified stack.</p>
+
+      <div class="prod-grid">
+        <div class="prod-card c-green reveal">
+          <div class="prod-lbl">ICore</div>
+          <h3>The orchestration engine</h3>
+          <p>The central nervous system for your distributed infrastructure. Manage services, routing, and dependencies from a single pane of glass.</p>
+          <span class="prod-badge">CORE PLATFORM</span>
+        </div>
+        <div class="prod-card c-blue reveal">
+          <div class="prod-lbl">IStream</div>
+          <h3>Real-time data pipelines</h3>
+          <p>Ingest, process, and route billions of events per day with guaranteed delivery and zero configuration overhead.</p>
+          <span class="prod-badge">DATA LAYER</span>
+        </div>
+
+        <div class="prod-card c-coral reveal">
+          <div class="prod-lbl">IVault</div>
+          <h3>Encrypted secret storage</h3>
+          <p>Hardware-backed secrets management, dynamic credentials, and automatic expiry. Sleep easy knowing your keys are safe.</p>
+          <span class="prod-badge">SECURITY</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="inner">
+      <div class="tag">// leadership</div>
+      <h2>The people behind ICorp.</h2>
+      <p class="desc">A world-class team obsessed with developer experience and infrastructure reliability.</p>
+
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="avatar av1">JJ</div>
+          <div class="t-name">Jack Jacksson</div>
+          <div class="t-role">CEO &amp; Co-founder</div>
+          <div class="t-role">@jack.jacksson_</div>
+        </div>
+        <div class="team-card reveal">
+          <div class="avatar av2">JJ</div>
+          <div class="t-name">James Jamesson</div>
+          <div class="t-role">CTO &amp; Co-founder</div>
+          <div class="t-role">@james.jamesson_</div>
+        </div>
+        <div class="team-card reveal">
+          <div class="avatar av3">JJ</div>
+          <div class="t-name">John Johnsson</div>
+          <div class="t-role">CISO</div>
+          <div class="t-role">@john.johnsson_</div>
+        </div>
+        <div class="team-card reveal">
+          <div class="avatar av4">JJ</div>
+          <div class="t-name">Jacob Jacobsson</div>
+          <div class="t-role">Senior Engineering</div>
+          <div class="t-role">@jacob.jacobsson_</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="inner cta-wrap">
+      <div class="cta-box">
+        <div class="tag" style="text-align:center">// ready?</div>
+        <h2>Start building on ICorp today.</h2>
+        <p>No credit card required. Free for up to 3 seats.</p>
+        <a href="#" class="btn btn-primary" style="font-size:1rem;padding:0.85rem 2rem">Get started for free &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-inner">
+      <div class="foot-l">
+        <a href="#" class="logo" style="font-size:1.1rem">I<em>Corp</em></a>
+        <span class="foot-copy">&copy; flag{1_m4d3_1t_t0_th3_w3bs1t3}.</span>
+      </div>
+      <ul class="foot-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="./security.txt">Security</a></li>
+        <li><a href="./robots.txt">Robots</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // ─── ICorp Analytics Bootstrap v1.3.2 ───
+    // Auto-generated — DO NOT MODIFY
+
+    // Have you ever used the browser console? You can run to try it out!
+    const _icorp = {
+      env:    "production",
+      region: "eu-west-1",
+      build:  "20240315",
+      _t: [102,108,97,103,123,99,48,110,115,48,108,51,95,49,115,95,121,48,117,114,95,102,114,49,51,110,100,125]            
+      .map(c => String.fromCharCode(c)).join(""),
+    };
+
+    // Nav compress on scroll
+    const nav = document.getElementById("top-nav");
+    window.addEventListener("scroll", () => {
+      nav.style.padding = window.scrollY > 60 ? "0.8rem 3rem" : "1.2rem 3rem";
+    });
+
+    // Scroll-triggered reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 3) * 80}ms`;
+      io.observe(el);
+    });
+  </script>
+
+</body>
+</html>

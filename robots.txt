@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /api/
+Disallow: /internal/
+Disallow: /admin/
+Disallow: /.env
+
+# Sitemap: https://icorp-org.github.io/sitemap.xml
+
+# flag{r0b0ts_txt_1s_4lw4ys_publ1c}
